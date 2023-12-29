@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask import request
-from domain.models import db, Product
+from domain.models import db, Product, ProductHistory
 from models.ProductCountPredictModelService import ProductCountPredictModelService, ProductCountPredictInput
 
 app = Flask(__name__)
@@ -47,16 +47,27 @@ def build_response(message, data, status_code=200):
 
 
 class ProductResponse:
-    def __init__(self, product_id, product_name, prediction):
+    def __init__(
+            self,
+            year: int,
+            product_id: int,
+            product_name: str,
+            food_quantity: float,
+            production_quantity: float,
+            import_quantity: float,
+            export_quantity: float
+    ):
+        self.year = year
         self.product_id = product_id
         self.product_name = product_name
-        self.food_quantity = round(prediction['Food'][0].item(), 1)
-        self.production_quantity = round(prediction['Production'][0].item(), 1)
-        self.import_quantity = round(prediction['Import Quantity'][0].item(), 1)
-        self.export_quantity = round(prediction['Export Quantity'][0].item(), 1)
+        self.food_quantity = food_quantity
+        self.production_quantity = production_quantity
+        self.import_quantity = import_quantity
+        self.export_quantity = export_quantity
 
     def serialize(self):
         return {
+            "year": self.year,
             "product_id": self.product_id,
             "product_name": self.product_name,
             "food_quantity": self.food_quantity,
@@ -75,10 +86,38 @@ def predict_food_balance():
             return build_response(error, None, 400)
 
         predictions = []
-        for product in products:
-            prediction = model.predict_results(product)
-            product = Product.query.filter_by(product_id=product.product_id).first()
-            predictions.append(ProductResponse(product.product_id, product.product_name, prediction))
+        product_id = content_arr.get('product')
+        first_pred_year = products[0].year
+        product = Product.query.filter_by(product_id=product_id).first()
+
+        for pr in ProductHistory.query.filter_by(product_id=product_id).order_by(ProductHistory.year):
+            if pr.year == first_pred_year:
+                break
+            predictions.append(
+                ProductResponse(
+                    pr.year,
+                    product.product_id,
+                    product.product_name,
+                    float(pr.food),
+                    float(pr.production),
+                    float(pr.import_quantity),
+                    float(pr.export_quantity)
+                )
+            )
+
+        for pr in products:
+            prediction = model.predict_results(pr)
+            predictions.append(
+                ProductResponse(
+                    pr.year,
+                    product.product_id,
+                    product.product_name,
+                    round(prediction['Food'][0].item(), 1),
+                    round(prediction['Production'][0].item(), 1),
+                    round(prediction['Import Quantity'][0].item(), 1),
+                    round(prediction['Export Quantity'][0].item(), 1)
+                )
+            )
 
         return build_response(None, predictions, 200)
     if request.method == 'GET':

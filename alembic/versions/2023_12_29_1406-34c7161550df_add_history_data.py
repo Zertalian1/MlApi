@@ -25,11 +25,13 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         "historical_data",
+        sa.Column("data_id", sa.BigInteger(), nullable=False),
         sa.Column("food", sa.String(length=100)),
         sa.Column("production", sa.String(length=100)),
         sa.Column("import_quantity", sa.String(length=100)),
         sa.Column("export_quantity", sa.String(length=100)),
         sa.Column("product_id", sa.BigInteger()),
+        sa.Column("year", sa.Integer()),
         sa.ForeignKeyConstraint(("product_id",), ["products.product_id"], )
     )
 

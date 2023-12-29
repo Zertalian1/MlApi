@@ -23,4 +23,5 @@ class ProductHistory(db.Model):
     production = db.Column(db.String(length=100))
     import_quantity = db.Column(db.String(length=100))
     export_quantity = db.Column(db.String(length=100))
+    year = db.Column(db.Integer)
     product_id = db.Column(db.BigInteger(), db.ForeignKey("products.product_id"))
