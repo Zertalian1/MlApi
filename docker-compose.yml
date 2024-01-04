@@ -14,8 +14,8 @@ services:
       - '0.0.0.0:5432:5432/tcp'
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
-      interval: 10s
+      test: "pg_isready -h db"
+      interval: 3s
       timeout: 5s
       retries: 5
 
@@ -26,5 +26,4 @@ services:
       - "8080:5000"
     command: bash -c "alembic upgrade head && python app.py"
     depends_on:
-      postgresql:
-        condition: service_healthy
+      - postgresql
