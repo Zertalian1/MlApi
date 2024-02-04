@@ -1,29 +1,77 @@
 version: '3.8'
 
 services:
-  postgresql:
+  db-1:
     image: postgres:14.9-alpine
     environment:
       POSTGRES_USER: Zertallian
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: MlDb
-    container_name: 'mlPostgres'
+      POSTGRES_DB: MlDb-1
+    container_name: 'food-forecasting-db'
     volumes:
       - ./init-db-postgres:/docker-entrypoint-initdb.d/:ro
     ports:
       - '0.0.0.0:5432:5432/tcp'
     restart: always
     healthcheck:
-      test: "pg_isready -h db"
-      interval: 3s
+      test: [ "CMD-SHELL", "pg_isready -U Zertallian -d MlDb-1" ]
+      interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
 
-  backend:
-    build:
-      dockerfile: ./Dockerfile
+  db-2:
+    image: postgres:14.9-alpine
+    environment:
+      POSTGRES_USER: Zertallian
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: MlDb-2
+    container_name: 'social-parameter-forecasting-db'
+    volumes:
+      - ./init-db-postgres:/docker-entrypoint-initdb.d/:ro
     ports:
-      - "8080:5000"
-    command: bash -c "alembic upgrade head && python app.py"
+      - '0.0.0.0:5433:5432/tcp'
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U Zertallian -d MlDb-2" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  food-forecasting-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./food-forecasting-service
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=prod
+    restart: on-failure
+    command: bash -c "alembic upgrade head && python food-forecasting.py"
     depends_on:
-      - postgresql
+      db-1:
+        condition: service_healthy
+
+  social-parameter-forecasting-service:
+    build:
+      dockerfile: Dockerfile
+      context: ./social-parameter-forecasting-service
+    ports:
+      - "5001:5000"
+    environment:
+      - FLASK_ENV=prod
+    command: bash -c "alembic upgrade head && python social-parameter-forecasting.py"
+    depends_on:
+      db-2:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - food-forecasting-service
+      - social-parameter-forecasting-service
