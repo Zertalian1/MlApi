@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from sqlalchemy import and_
-
+import io
+import csv
 from domain.models import Input, db
 import configparser
 from models.DataPredictService import DataPredictService
@@ -32,6 +33,29 @@ def build_response(message, data, status_code=200):
             "data": data_parse
         }
     ), status_code
+
+
+def to_csv(data):
+    proxy = io.StringIO()
+    writer = csv.writer(proxy)
+    header = [
+        "year",
+        "agriculture orientation",
+        "surface temperature change",
+        "gdp",
+        "gini",
+        "life expectancy",
+        "unemployment",
+        "population"
+    ]
+    writer.writerow(header)
+    for pred in data:
+        writer.writerow(list(pred))
+    mem = io.BytesIO()
+    mem.write(proxy.getvalue().encode())
+    mem.seek(0)
+    proxy.close()
+    return mem
 
 
 @app.route('/api/predict-input-data', methods=['post'])
@@ -65,6 +89,13 @@ def predict_input_data():
                 data = [dataPredictService.predict_input(year)]
             else:
                 data = [Input.query.filter_by(year=year).first()]
+        if request.args.get('return_csv') == 'true':
+            return send_file(
+                to_csv(data),
+                as_attachment=True,
+                download_name='input_data_predictions.csv',
+                mimetype='text/csv'
+            )
         return build_response(None, data, 200)
 
 

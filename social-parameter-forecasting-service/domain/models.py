@@ -28,3 +28,17 @@ class Input(db.Model):
             "unemployment": self.unemployment,
             "population": self.population
         }
+
+    def __iter__(self):
+        return iter(
+            [
+                self.year,
+                self.agriculture_orientation,
+                self.surface_temperature_change,
+                self.gdp,
+                self.gini,
+                self.life_expectancy,
+                self.unemployment,
+                self.population
+            ]
+        )

@@ -1,7 +1,32 @@
 from models.ProductPredictService import ProductCountPredictInput
+import pandas as pd
+from werkzeug.utils import secure_filename
+
+ALLOWED_EXTENSIONS = {'csv'}
 
 
 class ParseProductService:
+    # брать файл от юзера?
+    @staticmethod
+    def parse_file(files):
+        if 'file' not in files:
+            return None, "file must have key 'file'"
+        data = pd.read_csv(files.get('file'), header=None)
+        products = []
+        product_id = data[0][0]
+        for j in range(0, len(data[0])):
+            product = ProductCountPredictInput()
+            product.product_id = data[0][j]
+            product.year = data[1][j]
+            product.population = data[2][j]
+            product.life_expectancy = data[3][j]
+            product.gini = data[4][j]
+            product.gdp = data[5][j]
+            product.surface_temperature_change = data[6][j]
+            product.agriculture_orientation = data[7][j]
+            product.unemployment = data[8][j]
+            products.append(product)
+        return products, None, product_id
 
     @staticmethod
     def parse_products(content_arr):
@@ -42,4 +67,4 @@ class ParseProductService:
             product.unemployment = content.get('unemployment', product.unemployment)
             product.product_id = product_id
             products.append(product)
-        return products, None
+        return products, None, product_id
