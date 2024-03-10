@@ -40,33 +40,33 @@ def build_response(message, data, status_code=200):
     ), status_code
 
 
-def collect_forecast(products, product, is_ignore_history):
+def collect_forecast(input_params, product, is_ignore_history):
     predictions = []
-    first_pred_year = products[0].year
+    first_pred_year = input_params[0].year
 
     if is_ignore_history != 'true':
-        for product in ProductHistory.query.filter(
+        for prod in ProductHistory.query.filter(
                 and_(ProductHistory.product_id == product.product_id, ProductHistory.year < first_pred_year)
         ).order_by(ProductHistory.year):
             predictions.insert(
-                product.year - 1960,
+                prod.year - 1960,
                 ProductResponseDto(
-                    product.year,
-                    product.product_id,
+                    prod.year,
+                    prod.product_id,
                     product.product_name,
-                    float(product.food),
-                    float(product.production),
-                    float(product.import_quantity),
-                    float(product.export_quantity)
+                    float(prod.food),
+                    float(prod.production),
+                    float(prod.import_quantity),
+                    float(prod.export_quantity)
                 )
             )
 
-    for product in products:
-        prediction = productPredictService.predict_results(product)
+    for prod in input_params:
+        prediction = productPredictService.predict_results(prod)
         predictions.append(
             ProductResponseDto(
-                product.year,
-                product.product_id,
+                prod.year,
+                prod.product_id,
                 product.product_name,
                 round(math.exp(prediction['Food'][0].item()), 4),
                 round(math.exp(prediction['Production'][0].item()), 4),
@@ -95,13 +95,13 @@ def to_csv(predictions):
 def predict_food_balance():
     if request.method == 'POST':
         if len(request.files) > 0:
-            products, error, product_id = ParseProductService.parse_file(request.files or {})
+            input_params, error, product_id = ParseProductService.parse_file(request.files or {})
         else:
-            products, error, product_id = ParseProductService.parse_products(request.get_json() or {})
+            input_params, error, product_id = ParseProductService.parse_products(request.get_json() or {})
         if error is not None:
             return build_response(error, None, 400)
         product = Product.query.filter_by(product_id=product_id).first()
-        predictions = collect_forecast(products, product, request.args.get('ignore_history'))
+        predictions = collect_forecast(input_params, product, request.args.get('ignore_history'))
         if request.args.get('return_csv') == 'true':
             return send_file(
                 to_csv(predictions),

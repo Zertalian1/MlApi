@@ -1,5 +1,6 @@
 import joblib
 import pandas as pd
+import os
 
 
 class ProductCountPredictInput:
@@ -18,12 +19,18 @@ class ProductCountPredictInput:
 
 class ProductPredictService:
     def __init__(self):
-        self.model = joblib.load('./models/test.joblib')
-        self.scaler = joblib.load('./models/scaler.save')
+        models_files = [f.name for f in os.scandir('./models/models') if f.is_file()]
+        models_files.sort()
+        scalers_files = [f.name for f in os.scandir('./models/scalers') if f.is_file()]
+        scalers_files.sort()
+        self.model = []
+        self.scaler = []
+        for i in range(0, len(models_files)):
+            self.model.append(joblib.load('./models/models/' + models_files[i]))
+            self.scaler.append(joblib.load('./models/scalers/' + scalers_files[i]))
 
     def predict_results(self, product_input):
         data = {
-            'Id': [product_input.product_id],
             'Year': [product_input.year],
             'Agriculture Orientation': [product_input.agriculture_orientation],
             'Surface temperature Change': [product_input.surface_temperature_change],
@@ -33,6 +40,6 @@ class ProductPredictService:
             'Population': [product_input.population],
             'Unemployment': [product_input.unemployment]
         }
-        data = pd.DataFrame(data=self.scaler.transform(pd.DataFrame(data)))
-        pred = self.model.predict(data)
+        data = pd.DataFrame(data=self.scaler[product_input.product_id].transform(pd.DataFrame(data)))
+        pred = self.model[product_input.product_id].predict(data)
         return pd.DataFrame(pred, columns=["Food", "Production", "Import Quantity", "Export Quantity"])
