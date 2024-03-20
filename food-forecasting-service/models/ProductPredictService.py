@@ -26,12 +26,13 @@ class ProductPredictService:
         self.model = []
         self.scaler = []
         for i in range(0, len(models_files)):
-            self.model.append(joblib.load('./models/models/' + models_files[i]))
-            self.scaler.append(joblib.load('./models/scalers/' + scalers_files[i]))
+            id = int(models_files[i][5: models_files[i].find(".", 6)])
+            self.model.insert(id, joblib.load('./models/models/' + models_files[i]))
+            self.scaler.insert(id, joblib.load('./models/scalers/' + scalers_files[i]))
 
     def predict_results(self, product_input):
         data = {
-            'Year': [product_input.year],
+            #'Year': [product_input.year],
             'Agriculture Orientation': [product_input.agriculture_orientation],
             'Surface temperature Change': [product_input.surface_temperature_change],
             'GDP': [product_input.gdp],
