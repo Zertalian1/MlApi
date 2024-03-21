@@ -52,58 +52,54 @@ def upgrade() -> None:
             },
             {
                 "product_id": 7,
-                "product_name": "Мясо"
-            },
-            {
-                "product_id": 8,
                 "product_name": "Молоко"
             },
             {
-                "product_id": 9,
+                "product_id": 8,
                 "product_name": "Орехи"
             },
             {
-                "product_id": 10,
+                "product_id": 9,
                 "product_name": "Масло и животный жир"
             },
             {
-                "product_id": 11,
+                "product_id": 10,
                 "product_name": "Горох"
             },
             {
-                "product_id": 12,
+                "product_id": 11,
                 "product_name": "Свинина"
             },
             {
-                "product_id": 13,
+                "product_id": 12,
                 "product_name": "Картофель"
             },
             {
-                "product_id": 14,
+                "product_id": 13,
                 "product_name": "Мясо птицы"
             },
             {
-                "product_id": 15,
+                "product_id": 14,
                 "product_name": "Рис"
             },
             {
-                "product_id": 16,
+                "product_id": 15,
                 "product_name": "Рожь"
             },
             {
-                "product_id": 17,
+                "product_id": 16,
                 "product_name": "Сахар"
             },
             {
-                "product_id": 18,
+                "product_id": 17,
                 "product_name": "Чай"
             },
             {
-                "product_id": 19,
+                "product_id": 18,
                 "product_name": "Овощи"
             },
             {
-                "product_id": 20,
+                "product_id": 19,
                 "product_name": "Пшеница"
             },
         ],

@@ -33,7 +33,7 @@ class ParseProductService:
         if content_arr.get('product') is None:
             return None, "No product has been selected"
         product_id = content_arr.get('product')
-        if product_id < 0 or product_id > 20:
+        if product_id < 0 or product_id > 19:
             return None, "The selected product does not exist"
         products = []
         for content in content_arr.get("data"):

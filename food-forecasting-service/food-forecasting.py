@@ -42,7 +42,10 @@ def build_response(message, data, status_code=200):
 
 def collect_forecast(input_params, product, is_ignore_history):
     predictions = []
-    first_pred_year = input_params[0].year
+    if len(input_params) != 0:
+        first_pred_year = input_params[0].year
+    else:
+        first_pred_year = 2021
 
     if is_ignore_history != 'true':
         for prod in ProductHistory.query.filter(
