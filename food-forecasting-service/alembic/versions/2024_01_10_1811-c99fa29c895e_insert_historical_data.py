@@ -22,8 +22,8 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     op.create_table(
-        "historical_data",
-        sa.Column("data_id", sa.BigInteger(), nullable=False),
+        "products_history",
+        sa.Column("id", sa.BigInteger(), nullable=False),
         sa.Column("food", sa.DECIMAL(10, 2)),
         sa.Column("production", sa.DECIMAL(10, 2)),
         sa.Column("import_quantity", sa.DECIMAL(10, 2)),
@@ -34,7 +34,7 @@ def upgrade() -> None:
     )
 
     dir_name = os.path.dirname(__file__)
-    file_name = os.path.join(dir_name, 'historical_data.csv')
+    file_name = os.path.join(dir_name, 'products_history_1960_2020.csv')
     lines = list(reader(open(file_name, 'r')))
     headers = lines.pop(0)
 

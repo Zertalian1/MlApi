@@ -6,8 +6,8 @@ db = SQLAlchemy()
 
 
 class Input(db.Model):
-    __tablename__ = 'inputs'
-    data_id = Column(sa.BigInteger, primary_key=True)
+    __tablename__ = 'social_parameters'
+    id = Column(sa.BigInteger, primary_key=True)
     agriculture_orientation = Column(sa.DECIMAL(10, 2))
     surface_temperature_change = Column(sa.DECIMAL(10, 10))
     gdp = Column(sa.DECIMAL(10, 2))

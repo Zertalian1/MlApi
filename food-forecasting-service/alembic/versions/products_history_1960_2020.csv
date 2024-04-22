@@ -1,4 +1,4 @@
-data_id,year,product_id,food,production,import_quantity,export_quantity
+id,year,product_id,food,production,import_quantity,export_quantity
 0,1960,0,2193.0,1854.7,388.0,91.0
 1,1961,0,2496.0,2003.0,344.7,89.0
 2,1962,0,2645.0,2156.3,228.5,83.0

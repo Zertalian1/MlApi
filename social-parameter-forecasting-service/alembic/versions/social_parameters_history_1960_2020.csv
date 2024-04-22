@@ -1,4 +1,4 @@
-data_id,year,agriculture_orientation,surface_temperature_change,gdp,gini,life_expectancy,population,unemployment
+id,year,agriculture_orientation,surface_temperature_change,gdp,gini,life_expectancy,population,unemployment
 0,1960,2.24,0.037939537,5557.0,0.24579657,67.91,119045800,2.1
 1,1961,2.24,0.038837112,5874.0,0.23606582,68.75,120765599,2.1
 2,1962,2.25,0.039799146,6229.0,0.23876533,68.76,122406795,2.1

@@ -18,8 +18,8 @@ class Product(db.Model):
 
 
 class ProductHistory(db.Model):
-    __tablename__ = 'historical_data'
-    data_id = Column(sa.BigInteger, primary_key=True)
+    __tablename__ = 'products_history'
+    id = Column(sa.BigInteger, primary_key=True)
     food = Column(sa.DECIMAL(10, 2))
     production = Column(sa.DECIMAL(10, 2))
     import_quantity = Column(sa.DECIMAL(10, 2))

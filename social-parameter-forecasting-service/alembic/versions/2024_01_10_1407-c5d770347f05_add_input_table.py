@@ -23,8 +23,8 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     op.create_table(
-        "inputs",
-        sa.Column("data_id", sa.BigInteger(), nullable=False),
+        "social_parameters",
+        sa.Column("id", sa.BigInteger(), nullable=False),
         sa.Column("agriculture_orientation", sa.DECIMAL(10, 2)),
         sa.Column("surface_temperature_change", sa.DECIMAL(10, 10)),
         sa.Column("gdp", sa.DECIMAL(10, 2)),
@@ -35,7 +35,7 @@ def upgrade() -> None:
         sa.Column("year", sa.Integer())
     )
     dir_name = os.path.dirname(__file__)
-    file_name = os.path.join(dir_name, 'input_data.csv')
+    file_name = os.path.join(dir_name, 'social_parameters_history_1960_2020.csv')
     lines = list(reader(open(file_name, 'r')))
     headers = lines.pop(0)
 
