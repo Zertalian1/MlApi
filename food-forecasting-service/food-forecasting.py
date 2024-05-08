@@ -71,10 +71,10 @@ def collect_forecast(input_params, product, is_ignore_history):
                 prod.year,
                 prod.product_id,
                 product.product_name,
-                round(math.exp(prediction['Food'][0].item()), 4),
-                round(math.exp(prediction['Production'][0].item()), 4),
-                round(math.exp(prediction['Import Quantity'][0].item()), 4),
-                round(math.exp(prediction['Export Quantity'][0].item()), 4)
+                round(math.exp(prediction['Food'][0].item()), 2),
+                round(math.exp(prediction['Production'][0].item()), 2),
+                round(math.exp(prediction['Import Quantity'][0].item()), 2),
+                round(math.exp(prediction['Export Quantity'][0].item()), 2)
             )
         )
     return predictions
