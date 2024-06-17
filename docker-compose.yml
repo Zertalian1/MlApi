@@ -75,3 +75,10 @@ services:
     depends_on:
       - food-forecasting-service
       - social-parameter-forecasting-service
+
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./front
+    ports:
+      - "3000:3000"

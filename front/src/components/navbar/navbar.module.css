@@ -1,0 +1,8 @@
+.navbar {
+    float: left;
+    position: fixed;
+    height: 100vh;
+    border-radius: 0px;
+    background-image: linear-gradient(180deg,rgba(221,145,76,1)26.666656136512756%,rgba(76,40,110,1)80.16665577888489%);
+    width: 292px;
+}

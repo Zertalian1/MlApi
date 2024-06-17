@@ -1,0 +1,83 @@
+.links {
+  display: flex; 
+  flex-direction: column;
+  text-align: center; 
+  padding: 100px 0; 
+  
+  color: #333; 
+}
+
+.link {
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: 400;
+  display: inline-block;
+  width: 249px;
+  padding: 4px;
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: 400;
+  margin-bottom: 10px;
+  background-color: #393939;
+  text-align: center;
+  height: 69px;
+  border: 2px solid transparent;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.link:hover{
+  background-color: rgb(54, 48, 77);
+  border: 2px solid transparent;
+}
+
+.button {
+  display: inline-block;
+  width: 249px;
+  padding: 4px;
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: 400;
+  margin-bottom: 10px;
+  background-color: #393939;
+  text-align: center;
+  height: 69px;
+  border: 2px solid transparent;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.linkPressed {
+  display: inline-block;
+  width: 280px;
+  padding: 4px;
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: 400;
+  margin-bottom: 10px;
+  background-color: #393939;
+  text-align: center;
+  height: 69px;
+  border: 2px solid transparent;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: rgb(54, 48, 77);
+  border: 2px solid transparent;
+}
+
+.link:active {
+  background-color: rgb(18, 5, 31); /* Органичный цвет при нажатии */
+  border: 2px solid transparent;
+}

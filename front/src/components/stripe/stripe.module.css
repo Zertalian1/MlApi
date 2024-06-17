@@ -1,0 +1,8 @@
+.stripe {
+    margin-left: auto;
+    margin-top: 20px;
+    width: 1520px;
+    height: 11px;
+    background: linear-gradient(90deg, rgba(214, 137, 67, 1) 8.166656643152237%, rgba(76, 40, 110, 1) 92.09073781967163%);
+    z-index: 9999;
+  } 
