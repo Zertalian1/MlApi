@@ -196,7 +196,7 @@ const Home = () => {
   
   const handleDropDownClick = () => {
     clearErrors()
-    axios.get("http://nginx_1:8080/predict-food-balance")
+    axios.get("https://sblab-vm06.sblab02.nsu.ru:8080/predict-food-balance")
     .then(response => { 
       setFormData(prevFormData => ({
         ...prevFormData,
@@ -335,7 +335,7 @@ const Home = () => {
     }
   
     if(Number(formData.selectedYear.value.getFullYear()) > 2021){
-      let response = await axios.post("http://nginx_1:8080/predict-input-data?range=true",
+      let response = await axios.post("https://sblab-vm06.sblab02.nsu.ru:8080/predict-input-data?range=true",
       {
         year_from: 2021,
         year_to: Number(formData.selectedYear.value.getFullYear() - 1)
@@ -346,7 +346,7 @@ const Home = () => {
       }
     }
 
-    let predictedYearRespone = await axios.post("http://nginx_1:8080/predict-input-data", {year: Number(formData.selectedYear.value.getFullYear())})
+    let predictedYearRespone = await axios.post("https://sblab-vm06.sblab02.nsu.ru:8080/predict-input-data", {year: Number(formData.selectedYear.value.getFullYear())})
     
     let population = formData.fields.find(field => field.name === 'Численность населения').value
     let surface_temperature_change = formData.fields.find(field => field.name === 'Изменение температуры').value
@@ -369,7 +369,7 @@ const Home = () => {
       }
     )
 
-    axios.post("http://nginx_1:8080/predict-food-balance",
+    axios.post("https://sblab-vm06.sblab02.nsu.ru:8080/predict-food-balance",
     request)
     .then(response => {
       handleResponse(response.data)
@@ -440,7 +440,7 @@ const Home = () => {
     }
   
     if(Number(formData.selectedYear.value.getFullYear()) > 2021){
-      let response = await axios.post("http://nginx_1:8080/predict-input-data?range=true",
+      let response = await axios.post("https://sblab-vm06.sblab02.nsu.ru:8080/predict-input-data?range=true",
       {
         year_from: 2021,
         year_to: Number(formData.selectedYear.value.getFullYear() - 1)
@@ -451,7 +451,7 @@ const Home = () => {
       }
     }
 
-    let predictedYearRespone = await axios.post("http://nginx_1:8080/predict-input-data", {year: Number(formData.selectedYear.value.getFullYear())})
+    let predictedYearRespone = await axios.post("https://sblab-vm06.sblab02.nsu.ru:8080/predict-input-data", {year: Number(formData.selectedYear.value.getFullYear())})
     
     let population = formData.fields.find(field => field.name === 'Численность населения').value
     let surface_temperature_change = formData.fields.find(field => field.name === 'Изменение температуры').value
@@ -474,7 +474,7 @@ const Home = () => {
       }
     )
     
-    axios.post("http://nginx_1:8080/predict-food-balance?return_csv=true",
+    axios.post("https://sblab-vm06.sblab02.nsu.ru:8080/predict-food-balance?return_csv=true",
     request)
     .then(response => {
       downloadCSV(response.data, "Выгрузка")
