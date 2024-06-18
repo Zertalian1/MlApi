@@ -52,7 +52,7 @@ const DataView = () => {
 
   const handleDropDownClick = () => {
     clearErrors()
-    axios.get("https://sblab-vm06.sblab02.nsu.ru:8080/predict-food-balance")
+    axios.get("https://192.168.99.26:8080/predict-food-balance")
     .then(response => { 
       setFormData(prevFormData => ({
         ...prevFormData,
@@ -82,7 +82,7 @@ const DataView = () => {
       return
     }
 
-    axios.post("https://sblab-vm06.sblab02.nsu.ru:8080/predict-food-balance", {
+    axios.post("https://192.168.99.26:8080/predict-food-balance", {
       product: Number(formData.product.selectedOption), 
       data: []
     }).then(response => {
@@ -154,7 +154,7 @@ const DataView = () => {
       return
     }
 
-    axios.post("https://sblab-vm06.sblab02.nsu.ru:8080/predict-food-balance?return_csv=true",
+    axios.post("https://192.168.99.26:8080/predict-food-balance?return_csv=true",
     {
       product: Number(formData.product.selectedOption), 
       data: []
