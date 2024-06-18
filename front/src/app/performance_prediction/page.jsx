@@ -204,7 +204,7 @@ const PerformancePrediction = () => {
       return
     }
 
-    axios.post("http://localhost:8080/predict-input-data?range=true&return_csv=true", 
+    axios.post("http://nginx_1:8080/predict-input-data?range=true&return_csv=true",
     {
       year_from: 1960,
       year_to: Number(formData.selectedYear.value.getFullYear())
@@ -325,7 +325,7 @@ const PerformancePrediction = () => {
     }
   
     if(Number(formData.selectedYear.value.getFullYear()) > 2021){
-      let response = await axios.post("http://localhost:8080/predict-input-data?range=true", 
+      let response = await axios.post("http://nginx_1:8080/predict-input-data?range=true",
       {
         year_from: 2021,
         year_to: Number(formData.selectedYear.value.getFullYear() - 1)
@@ -336,7 +336,7 @@ const PerformancePrediction = () => {
       }
     }
 
-    let predictedYearRespone = await axios.post("http://localhost:8080/predict-input-data", {year: Number(formData.selectedYear.value.getFullYear())})
+    let predictedYearRespone = await axios.post("http://nginx_1:8080/predict-input-data", {year: Number(formData.selectedYear.value.getFullYear())})
 
     setPredictionFields({
       peopleCount: formData.fields[0].checkbox ? predictedYearRespone.data.data[0].population : '',
@@ -348,7 +348,7 @@ const PerformancePrediction = () => {
       Work: formData.fields[6].checkbox ? predictedYearRespone.data.data[0].unemployment : ''
     })
 
-    axios.post("http://localhost:8080/predict-input-data?range=true", 
+    axios.post("http://nginx_1:8080/predict-input-data?range=true",
     {
       year_from: 1960,
       year_to: Number(formData.selectedYear.value.getFullYear())
